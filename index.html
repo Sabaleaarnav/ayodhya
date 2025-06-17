@@ -2,19 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Ayodhya Nagari – Plot Status</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- tiny library for tooltips -->
-  <script defer src="https://unpkg.com/@popperjs/core@2"></script>
+  <title>Ayodhya Nagari – Test Plots</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Ayodhya Nagari Belhe – Plot Status</h1>
-
-  <!--  SVG is inlined so the polygons are part of the DOM -->
-  <div id="svg-wrapper"><?php readfile("map.svg"); ?></div>
-
-  <div id="tooltip" role="tooltip"></div>
-
+  <h1>Ayodhya Nagari – Plots 1-43 Demo</h1>
+  <div id="svg-wrapper">
+    <!-- paste the literal SVG here OR just <object data="map.svg" ...> -->
+    <?php /* if using PHP locally; GitHub Pages is static so inline paste instead */ ?>
+  </div>
+  <div id="tooltip"></div>
   <script type="module" src="js/plots.js"></script>
 </body>
 </html>
