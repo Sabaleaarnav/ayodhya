@@ -8,13 +8,18 @@
   ]);
 
   /* ---------- 2. helper to normalise IDs ----------------------------- */
-  const normalise = id => id.replace(/^PLOT#?/, "PLOT").padStart(6, "0"); // PLOT#1 ➜ PLOT001
+  // convert any id variant to the P### form used inside the SVG
+  const normalise = id => {
+    const num = String(id).match(/\d+/);
+    return num ? `P${num[0].padStart(3, "0")}` : null;
+  };
 
   /* ---------- 3. colour every plot in (inline or external) SVG ------- */
   function paint(svgDoc) {
     if (!svgDoc) return;
     for (const [rawId, status] of Object.entries(statusMap)) {
       const id = normalise(rawId);
+      if (!id) continue;
       const el = svgDoc.getElementById(id);
       if (!el) continue;
       el.classList.add(status);              // .sold | .unsold | .blocked
