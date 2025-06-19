@@ -17,6 +17,20 @@
   /* ---------- 3. colour every plot in (inline or external) SVG ------- */
   function paint(svgDoc) {
     if (!svgDoc) return;
+codex/enable-plot-interaction-and-status-display
+    // ensure all plot paths have a dataset.id so clicks work even when
+    // the status data is missing for some plots
+    svgDoc.querySelectorAll('[id^="P"]').forEach(el => {
+      const id = normalise(el.id);
+      if (!id) return;
+      el.dataset.id = id;
+      const status = statusMap[id];
+      if (status) {
+        el.classList.add(status);            // .sold | .unsold | .blocked
+        el.dataset.status = status;
+      }
+    });
+
     for (const [rawId, status] of Object.entries(statusMap)) {
       const id = normalise(rawId);
       if (!id) continue;
@@ -26,6 +40,7 @@
       el.dataset.id      = id;               // for later lookup
       el.dataset.status  = status;
     }
+main
   }
 
   //  a) inline SVG (if you eventually inline it)
@@ -42,8 +57,9 @@
   const tip = document.getElementById("tooltip");
   const showTip = e => {
     const t = e.target;
-    if (t.dataset.status) {
-      tip.textContent = `${t.dataset.id.replace(/^PLOT0*/, "Plot ")} – ${t.dataset.status}`;
+    if (t.dataset.id) {
+      const status = t.dataset.status || "unknown";
+      tip.textContent = `${t.dataset.id.replace(/^PLOT0*/, "Plot ")} – ${status}`;
       tip.style.left   = e.pageX + 12 + "px";
       tip.style.top    = e.pageY + 12 + "px";
       tip.style.opacity = 1;
