@@ -1,6 +1,6 @@
-.unsold  { fill: #38b000; }   /* green */
-.sold    { fill: #0077b6; }   /* blue  */
-.blocked { fill: #ffd60a; }   /* yellow*/
+.unsold  { fill: #38b000 !important; }   /* green */
+.sold    { fill: #0077b6 !important; }   /* blue  */
+.blocked { fill: #ffd60a !important; }   /* yellow*/
 #tooltip {
   position: absolute;
   background: #ffffff;
