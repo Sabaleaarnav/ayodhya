@@ -8,19 +8,27 @@
   ]);
 
   /* ---------- 2. helper to normalise IDs ----------------------------- */
-  const normalise = id => id.replace(/^PLOT#?/, "PLOT").padStart(6, "0"); // PLOT#1 ➜ PLOT001
+  // convert any id variant to the P### form used inside the SVG
+  const normalise = id => {
+    const num = String(id).match(/\d+/);
+    return num ? `P${num[0].padStart(3, "0")}` : null;
+  };
 
   /* ---------- 3. colour every plot in (inline or external) SVG ------- */
   function paint(svgDoc) {
     if (!svgDoc) return;
-    for (const [rawId, status] of Object.entries(statusMap)) {
-      const id = normalise(rawId);
-      const el = svgDoc.getElementById(id);
-      if (!el) continue;
-      el.classList.add(status);              // .sold | .unsold | .blocked
-      el.dataset.id      = id;               // for later lookup
-      el.dataset.status  = status;
-    }
+    // ensure all plot paths have a dataset.id so clicks work even when
+    // the status data is missing for some plots
+    svgDoc.querySelectorAll('[id^="P"]').forEach(el => {
+      const id = normalise(el.id);
+      if (!id) return;
+      el.dataset.id = id;
+      const status = statusMap[id];
+      if (status) {
+        el.classList.add(status);            // .sold | .unsold | .blocked
+        el.dataset.status = status;
+      }
+    });
   }
 
   //  a) inline SVG (if you eventually inline it)
@@ -37,8 +45,9 @@
   const tip = document.getElementById("tooltip");
   const showTip = e => {
     const t = e.target;
-    if (t.dataset.status) {
-      tip.textContent = `${t.dataset.id.replace(/^PLOT0*/, "Plot ")} – ${t.dataset.status}`;
+    if (t.dataset.id) {
+      const status = t.dataset.status || "unknown";
+      tip.textContent = `${t.dataset.id.replace(/^PLOT0*/, "Plot ")} – ${status}`;
       tip.style.left   = e.pageX + 12 + "px";
       tip.style.top    = e.pageY + 12 + "px";
       tip.style.opacity = 1;
