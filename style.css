@@ -11,3 +11,14 @@
   font-size: .8rem;
   box-shadow: 0 3px 10px rgba(0,0,0,.1);
 }
+#svg-wrapper {
+  width: 80vw;        /* fill 80% of viewport */
+  max-width: 1200px;  /* but no wider than 1200px */
+  margin: 0 auto;     /* center on the page */
+}
+
+#plotMap {
+  width: 100%;        /* fill the wrapper */
+  height: auto;       /* keep SVG’s aspect ratio */
+  display: block;     /* no inline gaps */
+}
