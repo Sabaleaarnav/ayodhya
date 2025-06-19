@@ -17,6 +17,7 @@
   /* ---------- 3. colour every plot in (inline or external) SVG ------- */
   function paint(svgDoc) {
     if (!svgDoc) return;
+codex/enable-plot-interaction-and-status-display
     // ensure all plot paths have a dataset.id so clicks work even when
     // the status data is missing for some plots
     svgDoc.querySelectorAll('[id^="P"]').forEach(el => {
@@ -29,6 +30,17 @@
         el.dataset.status = status;
       }
     });
+
+    for (const [rawId, status] of Object.entries(statusMap)) {
+      const id = normalise(rawId);
+      if (!id) continue;
+      const el = svgDoc.getElementById(id);
+      if (!el) continue;
+      el.classList.add(status);              // .sold | .unsold | .blocked
+      el.dataset.id      = id;               // for later lookup
+      el.dataset.status  = status;
+    }
+main
   }
 
   //  a) inline SVG (if you eventually inline it)
