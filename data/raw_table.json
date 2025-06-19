@@ -1,0 +1,28 @@
+[
+  {
+    "Plot Number": "Plot 01",
+    "Plot Size in SQ M": "1025.51",
+    "Plot Size in SQ FT": "11038.59",
+    "Plot Size in Guntha": "11.619568",
+    "Sale Price/Guntha": "",
+    "Total Cost": "₹0.00",
+    "Discount": "",
+    "Final Price": "₹0",
+    "Deposit": "",
+    "Remaining Balance": "",
+    "Plot Status": "AVALABLE"
+  },
+  {
+    "Plot Number": "Plot 02",
+    "Plot Size in SQ M": "578.16",
+    "Plot Size in SQ FT": "6223.31",
+    "Plot Size in Guntha": "6.550857",
+    "Sale Price/Guntha": "₹700,000.00",
+    "Total Cost": "₹4,585,599.97",
+    "Discount": "232",
+    "Final Price": "₹4,585,368",
+    "Deposit": "₹0",
+    "Remaining Balance": "₹4,585,368",
+    "Plot Status": "SOLD"
+  }
+]
