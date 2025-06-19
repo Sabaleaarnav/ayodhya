@@ -1,67 +1,87 @@
 /* js/plots.js ----------------------------------------------------------- */
 (async () => {
-  /* ------------------------------------------------------------------ *
-   * 1.  Load status data  (green=unsold, blue=sold, yellow=blocked)
-   * ------------------------------------------------------------------ */
-  const files = ["Plots.json"];                 // list all status JSONs you have
-  const statusMap = Object.assign(
-    {},
-    ...(await Promise.all(
-      files.map(f => fetch(`data/${f}`).then(r => r.json()))
-    ))
-  );
+  /* ---------- 1. load all data sets in parallel ---------------------- */
+  const [statusMap, sizeMap, depositMap] = await Promise.all([
+    fetch("data/Status.json").then(r => r.json()),
+    fetch("data/Plot Size.json").then(r => r.json()),
+    fetch("data/Finance.json").then(r => r.json())
+  ]);
 
-  /* ------------------------------------------------------------------ *
-   * 2.  Helper that colours plots in *one* SVG document
-   * ------------------------------------------------------------------ */
-  function applyColours(svgDoc) {
+  /* ---------- 2. helper to normalise IDs ----------------------------- */
+  const normalise = id => id.replace(/^PLOT#?/, "PLOT").padStart(6, "0"); // PLOT#1 ➜ PLOT001
+
+  /* ---------- 3. colour every plot in (inline or external) SVG ------- */
+  function paint(svgDoc) {
     if (!svgDoc) return;
-    for (const [plotId, status] of Object.entries(statusMap)) {
-      const el = svgDoc.getElementById(plotId);
-      if (!el) continue;                        // skip if the plot isn't in this SVG
-      el.classList.add(status);                 // .sold / .unsold / .blocked
-      el.dataset.status = status;               // store for tooltip
+    for (const [rawId, status] of Object.entries(statusMap)) {
+      const id = normalise(rawId);
+      const el = svgDoc.getElementById(id);
+      if (!el) continue;
+      el.classList.add(status);              // .sold | .unsold | .blocked
+      el.dataset.id      = id;               // for later lookup
+      el.dataset.status  = status;
     }
   }
 
-  /* ------------------------------------------------------------------ *
-   * 3.  Apply colours to:
-   *     a) Inline SVG (already in main DOM)
-   *     b) External <object id="plotMap"> if present
-   * ------------------------------------------------------------------ */
-  // a) Inline
-  applyColours(document);
+  //  a) inline SVG (if you eventually inline it)
+  paint(document);
 
-  // b) External
+  //  b) external <object id="plotMap">
   const obj = document.getElementById("plotMap");
   if (obj) {
-    // Already loaded?
-    if (obj.contentDocument) applyColours(obj.contentDocument);
-    // Or wait until it finishes loading
-    obj.addEventListener("load", () => applyColours(obj.contentDocument));
+    if (obj.contentDocument)           paint(obj.contentDocument);
+    obj.addEventListener("load", () => paint(obj.contentDocument));
   }
 
-  /* ------------------------------------------------------------------ *
-   * 4.  Very small tooltip (works for both inline & external)
-   * ------------------------------------------------------------------ */
+  /* ---------- 4. tooltip on hover (unchanged) ------------------------ */
   const tip = document.getElementById("tooltip");
-
-  function showTip(e) {
+  const showTip = e => {
     const t = e.target;
-    if (t.dataset && t.dataset.status) {
-      tip.textContent = `${t.id.replace(/^P/, "Plot ")} – ${t.dataset.status}`;
-      tip.style.left = e.pageX + 12 + "px";
-      tip.style.top  = e.pageY + 12 + "px";
+    if (t.dataset.status) {
+      tip.textContent = `${t.dataset.id.replace(/^PLOT0*/, "Plot ")} – ${t.dataset.status}`;
+      tip.style.left   = e.pageX + 12 + "px";
+      tip.style.top    = e.pageY + 12 + "px";
       tip.style.opacity = 1;
-    } else {
-      tip.style.opacity = 0;
-    }
+    } else tip.style.opacity = 0;
+  };
+  document.addEventListener("mousemove", showTip, true);
+  obj?.contentDocument?.addEventListener("mousemove", showTip, true);
+
+  /* ---------- 5. info-card on click ---------------------------------- */
+  const card = document.createElement("div");
+  card.id = "infoCard";
+  card.style.cssText = `
+    position:fixed; inset:0; display:none; place-content:center;
+    background:rgba(0,0,0,.35); z-index:9999;`;
+  card.innerHTML = `<article style="
+      background:#fff; padding:1.2rem 1.6rem; border-radius:8px; max-width:260px;
+      box-shadow:0 4px 20px rgba(0,0,0,.25); font:14px/1.4 system-ui">
+      <h2 id="cardTitle" style="margin:0 0 .6rem 0;font-size:1.1rem"></h2>
+      <ul style="margin:0 0 1rem 0;padding:0;list-style:none">
+        <li><b>Status&nbsp;</b><span id="cardStatus"></span></li>
+        <li><b>Area&nbsp;</b><span id="cardArea"></span></li>
+        <li><b>Deposit&nbsp;</b><span id="cardDep"></span></li>
+      </ul>
+      <button id="closeCard" style="padding:.35rem .9rem;border:0;background:#0077b6;
+              color:#fff;border-radius:4px;cursor:pointer">Close</button>
+    </article>`;
+  document.body.appendChild(card);
+  card.querySelector("#closeCard").onclick = () => (card.style.display = "none");
+
+  function handleClick(e) {
+    const t = e.target;
+    if (!t.dataset.id) return;
+    const id = t.dataset.id;
+    card.querySelector("#cardTitle").textContent = id.replace(/^PLOT0*/, "Plot ");
+    card.querySelector("#cardStatus").textContent =
+      (statusMap[id] ?? "unknown").toUpperCase();
+    card.querySelector("#cardArea").textContent =
+      sizeMap[id] ? `${sizeMap[id]} sq ft` : "n/a";
+    card.querySelector("#cardDep").textContent =
+      depositMap[id] ? `₹ ${depositMap[id]}` : "n/a";
+    card.style.display = "grid";
   }
 
-  // Listen on main document
-  document.addEventListener("mousemove", showTip, true);
-
-  // And inside the <object> if present
-  if (obj && obj.contentDocument)
-    obj.contentDocument.addEventListener("mousemove", showTip, true);
+  document.addEventListener("click", handleClick, true);
+  obj?.contentDocument?.addEventListener("click", handleClick, true);
 })();
