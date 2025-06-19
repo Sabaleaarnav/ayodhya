@@ -1,6 +1,6 @@
 (async ()=>{
   // choose the phase or merge all jsons – here we merge them
-  const files = ["phase1.json","phase2.json"];
+  const files = ["Finance.json","Plot Details.json"];
   const statusMap = Object.assign(
       {}, ...(await Promise.all(files.map(f=>fetch(`data/${f}`).then(r=>r.json()))))
   );
