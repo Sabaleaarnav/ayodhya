@@ -1,4 +1,5 @@
 {
   "P001": "unsold",
-  "P002": "sold"
+  "P002": "sold",
+  "P003": "blocked"
 }
