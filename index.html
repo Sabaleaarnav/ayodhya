@@ -27,69 +27,77 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 50vh;
             margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             background-color: #f4f4f4;
         }
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            width: 60%;
-            max-width: 300px;
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .block {
-            background-color: #ggg;
+            flex: 1 1 100%;
+            margin: 10px;
             padding: 20px;
+            text-align: center;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
         }
-        .block h2 {
-            margin: 0 0 10px;
+        .block.total {
+            background-color: #007bff;
+            color: white;
         }
-        .block input {
+        .block.available {
+            background-color: #28a745;
+            color: white;
+        }
+        .block.sold {
+            background-color: #ffc107;
+            color: white;
+        }
+        .block.blocked {
+            background-color: #dc3545;
+            color: white;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
             width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        }
+        .row .block {
+            flex: 1 1 calc(33.33% - 20px);
         }
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <div class="block">
+    <div class="container">
+        <div class="block total">
             <h2>Total Plots</h2>
-            <p id="total-plots">183</p>
+            <p>183</p>
         </div>
-        <div class="block">
-            <h2>Sold Plots</h2>
-            <input type="number" id="sold-plots" value="0" min="0" oninput="updatePlots()">
-        </div>
-        <div class="block">
-            <h2>Available Plots</h2>
-            <p id="available-plots">183</p>
-        </div>
-        <div class="block">
-            <h2>Blocked Plots</h2>
-            <input type="number" id="blocked-plots" value="0" min="0" oninput="updatePlots()">
+        <div class="row">
+            <div class="block available">
+                <h2>Available Plots</h2>
+                <p>123</p>
+            </div>
+            <div class="block sold">
+                <h2>Sold Plots</h2>
+                <p>50</p>
+            </div>
+            <div class="block blocked">
+                <h2>Blocked Plots</h2>
+                <p>10</p>
+            </div>
         </div>
     </div>
-
-    <script>
-        const totalPlots = 183;
-
-        function updatePlots() {
-            const soldPlots = parseInt(document.getElementById('sold-plots').value) || 0;
-            const blockedPlots = parseInt(document.getElementById('blocked-plots').value) || 0;
-            const availablePlots = totalPlots - soldPlots - blockedPlots;
-
-            document.getElementById('available-plots').innerText = availablePlots;
-        }
-    </script>
 </body>
 </html>
