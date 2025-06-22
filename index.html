@@ -2,12 +2,65 @@
 <!-- Real Estate Plot Dashboard with Map Integration -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ayodhya Nagari Belhe – Plot Dashboard</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+    .block {
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+      margin: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      height: 150px; /* Set equal height for all blocks */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .total { background-color: #d4af37; }
+    .available { background-color: #28a745; }
+    .sold { background-color: #ffc107; }
+    .blocked { background-color: #dc3545; }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .row .block {
+      flex: 1 1 calc(33.33% - 20px);
+    }
+    #svg-wrapper {
+      width: 100%;
+      text-align: center;
+      margin-top: 40px;
+    }
+    #plotMap {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+    }
+  </style>
+  <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
