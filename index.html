@@ -17,3 +17,78 @@
   <script type="module" src="js/plots.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Plot Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .block {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .block h2 {
+            margin: 0 0 10px;
+        }
+        .block input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="block">
+            <h2>Total Plots</h2>
+            <p id="total-plots">183</p>
+        </div>
+        <div class="block">
+            <h2>Sold Plots</h2>
+            <input type="number" id="sold-plots" value="0" min="0" oninput="updatePlots()">
+        </div>
+        <div class="block">
+            <h2>Available Plots</h2>
+            <p id="available-plots">183</p>
+        </div>
+        <div class="block">
+            <h2>Blocked Plots</h2>
+            <input type="number" id="blocked-plots" value="0" min="0" oninput="updatePlots()">
+        </div>
+    </div>
+
+    <script>
+        const totalPlots = 183;
+
+        function updatePlots() {
+            const soldPlots = parseInt(document.getElementById('sold-plots').value) || 0;
+            const blockedPlots = parseInt(document.getElementById('blocked-plots').value) || 0;
+            const availablePlots = totalPlots - soldPlots - blockedPlots;
+
+            document.getElementById('available-plots').innerText = availablePlots;
+        }
+    </script>
+</body>
+</html>
