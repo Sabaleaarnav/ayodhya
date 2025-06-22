@@ -1,104 +1,94 @@
-<!-- This section displays the Plot details -->
+
+<!-- Real Estate Plot Dashboard with Map Integration -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Estate Plot Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 50vh;
-            background-color: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            margin: 20px auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .block {
-            flex: 1 1 100%;
-            margin: 10px;
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .block.total {
-            background-color: #d4af37;
-            color: white;
-        }
-        .block.available {
-            background-color: #28a745;
-            color: white;
-        }
-        .block.sold {
-            background-color: #ffc107;
-            color: white;
-        }
-        .block.blocked {
-            background-color: #007bff;
-            color: white;
-        }
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            width: 100%;
-        }
-        .row .block {
-            flex: 1 1 calc(33.33% - 20px);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ayodhya Nagari Belhe – Plot Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+     : 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+    .block {
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+      margin: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .total { background-color: #d4af37; }
+    .available { background-color: #28a745; }
+    .sold { background-color: #ffc107; }
+    .blocked { background-color: #007bff; }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .row .block {
+      flex: 1 1 calc(33.33% - 20px);
+    }
+    #svg-wrapper {
+      width: 100%;
+      text-align: center;
+      margin-top: 40px;
+    }
+    #plotMap {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="block total">
-            <h2>Total Plots</h2>
-            <p>183</p>
-        </div>
-        <div class="row">
-            <div class="block available">
-                <h2>Available Plots</h2>
-                <p>123</p>
-            </div>
-            <div class="block sold">
-                <h2>Sold Plots</h2>
-                <p>50</p>
-            </div>
-            <div class="block blocked">
-                <h2>Blocked Plots</h2>
-                <p>10</p>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
 
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ayodhya Nagari Belhe – Test Plots</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <h1>Ayodhya Nagari Belhe Pune</h1>
-  </header>
-  <main id="svg-wrapper">
-    <object id="plotMap" data="map.svg" type="image/svg+xml"></object>
-  </main>
-  <div id="tooltip"></div>
-  <script type="module" src="js/plots.js"></script>
+  <header>
+    <h1>Ayodhya Nagari Belhe – Plot Dashboard</h1>
+  </header>
+
+  <div class="container">
+    <div class="block total">
+      <h2>Total Plots</h2>
+      <p>183</p>
+    </div>
+    <div class="row">
+      <div class="block available">
+        <h2>Available Plots</h2>
+        <p>123</p>
+      </div>
+      <div class="block sold">
+        <h2>Sold Plots</h2>
+        <p>50</p>
+      </div>
+      <div class="block blocked">
+        <h2>Blocked Plots</h2>
+        <p>10</p>
+      </div>
+    </div>
+  </div>
+
+  <main id="svg-wrapper">
+    <object id="plotMap" data="map.svg" type="image/svg+xml"></object>
+  </main>
+
+  <div id="tooltip"></div>
+  <script type="module" src="js/plots.js"></script>
+
 </body>
 </html>
