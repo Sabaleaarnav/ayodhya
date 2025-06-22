@@ -1,23 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ayodhya Nagari Belhe – Test Plots</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <h1>Ayodhya Nagari Belhe Pune</h1>
-  </header>
-  <main id="svg-wrapper">
-    <object id="plotMap" data="map.svg" type="image/svg+xml"></object>
-  </main>
-  <div id="tooltip"></div>
-  <script type="module" src="js/plots.js"></script>
-</body>
-</html>
-
+<!-- This section displays the Plot details -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +14,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: 50vh;
             background-color: #f4f4f4;
         }
         .container {
@@ -53,7 +34,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .block.total {
-            background-color: #007bff;
+            background-color: #d4af37;
             color: white;
         }
         .block.available {
@@ -65,7 +46,7 @@
             color: white;
         }
         .block.blocked {
-            background-color: #dc3545;
+            background-color: #007bff;
             color: white;
         }
         .row {
@@ -99,5 +80,25 @@
             </div>
         </div>
     </div>
+</body>
+</html>
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ayodhya Nagari Belhe – Test Plots</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Ayodhya Nagari Belhe Pune</h1>
+  </header>
+  <main id="svg-wrapper">
+    <object id="plotMap" data="map.svg" type="image/svg+xml"></object>
+  </main>
+  <div id="tooltip"></div>
+  <script type="module" src="js/plots.js"></script>
 </body>
 </html>
